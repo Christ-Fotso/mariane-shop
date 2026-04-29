@@ -49,7 +49,7 @@ services:
   # Database migration runner — runs once and exits
   migrator:
     image: ${DOCKER_IMAGE:-christfotso/mariane-shop:latest}
-    command: ["sh", "-c", "npx prisma db push && npx prisma db seed"]
+    command: ["sh", "-c", "export DATABASE_URL=$$(cat /run/secrets/DATABASE_URL) && npx -y prisma@5.22.0 db push && npx -y tsx prisma/seed.ts"]
     environment:
       - NODE_ENV=production
     secrets:
