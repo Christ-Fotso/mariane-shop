@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { LoginAdminUseCase } from '@/core/application/use-cases/LoginAdminUseCase';
 import { checkRateLimit } from '@/core/infrastructure/auth/rateLimiter';
 
+// Prevent Next.js from trying to statically analyze this route at build time
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     // Rate limiting: identify by IP

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { readSecret } from '../secrets/readSecret';
+import { readSecret } from '../../infrastructure/secrets/readSecret';
 
 export class AuthService {
   static async hashPassword(password: string): Promise<string> {

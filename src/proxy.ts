@@ -1,12 +1,24 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
+import { readFileSync } from 'fs';
+
+function getJwtSecret(): string {
+  // Try Docker secret file first, then env var for local dev
+  try {
+    return readFileSync('/run/secrets/JWT_SECRET', 'utf-8').trim();
+  } catch {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) throw new Error('JWT_SECRET not configured');
+    return secret;
+  }
+}
 
 /**
- * Middleware runs on the Edge Runtime.
- * We use `jose` (Edge-compatible) instead of `jsonwebtoken` (Node-only) to fully verify the JWT.
+ * Next.js 16 Proxy (formerly middleware).
+ * Fully verifies the JWT signature using jose before granting access to /admin routes.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const isAdminPath = request.nextUrl.pathname.startsWith('/admin');
   const isLoginPage = request.nextUrl.pathname === '/admin/login';
 
@@ -21,11 +33,11 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const secret = new TextEncoder().encode(getJwtSecret());
     await jwtVerify(token, secret);
     return NextResponse.next();
   } catch {
-    // Token is invalid or expired — clear cookie and redirect
+    // Token invalid or expired — clear cookie and redirect
     const response = NextResponse.redirect(new URL('/admin/login', request.url));
     response.cookies.delete('admin_token');
     return response;

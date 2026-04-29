@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/core/infrastructure/db/prisma';
 import { verifyAdminAuth } from '@/core/infrastructure/auth/verifyAuth';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const categories = await prisma.category.findMany({

@@ -6,4 +6,7 @@ README.md
 .next
 .git
 .env
-public/uploads
+.env.*
+/secrets/
+# Exclude uploaded images — stored in Docker volume, not in the image
+public/uploads/

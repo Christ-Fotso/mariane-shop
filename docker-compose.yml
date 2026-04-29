@@ -10,6 +10,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      # JWT_SECRET must also be available as process.env for the Next.js 16 proxy (runtime)
+      - JWT_SECRET_FILE=/run/secrets/JWT_SECRET
     secrets:
       - DATABASE_URL
       - JWT_SECRET

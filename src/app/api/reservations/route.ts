@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { PrismaReservationRepository } from '@/core/infrastructure/repositories/PrismaReservationRepository';
 import { CreateReservationUseCase } from '@/core/application/use-cases/CreateReservationUseCase';
 
+export const dynamic = 'force-dynamic';
+
+
 // Simple phone number validation: allows digits, spaces, +, -, ()
 const PHONE_REGEX = /^[+\d][\d\s\-().]{5,19}$/;
 const NAME_MAX_LENGTH = 100;
