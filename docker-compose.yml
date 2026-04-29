@@ -3,9 +3,6 @@ version: '3.8'
 services:
   app:
     image: ${DOCKER_IMAGE:-christfotso/mariane-shop:latest}
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -52,9 +49,6 @@ services:
   # Database migration runner — runs once and exits
   migrator:
     image: ${DOCKER_IMAGE:-christfotso/mariane-shop:latest}
-    build:
-      context: .
-      dockerfile: Dockerfile
     command: ["sh", "-c", "npx prisma db push && npx prisma db seed"]
     environment:
       - NODE_ENV=production
