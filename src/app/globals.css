@@ -68,9 +68,9 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: var(--shadow-sm);
 }
 
+.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
 .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
 .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
 
@@ -196,6 +196,43 @@ a:hover {
   background-color: #f9f9f9;
 }
 
+.product-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-cart-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  z-index: 10;
+}
+
+.product-card-container:hover .hover-cart-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-cart-btn:hover {
+  background-color: var(--primary-color);
+  color: #111;
+  transform: scale(1.05) translateY(0) !important;
+}
+
 .product-info {
   padding: 12px;
 }
@@ -249,4 +286,51 @@ a:hover {
   border-top: 1px solid var(--border-color);
   margin-top: 4rem;
   color: var(--text-secondary);
+}
+
+/* Product Details Page */
+.product-details-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .product-details-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.product-details-image img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.product-details-info h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.product-details-info .price {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.product-details-info .description h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.product-details-info .description p {
+  color: var(--text-secondary);
+  line-height: 1.6;
 }

@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="fr">
       <body>
         <header className="site-header">
-          <div className="container flex justify-between items-center py-4">
+          <div className="container flex justify-between items-center py-2">
             <a href="/" className="logo" style={{ textDecoration: 'none' }}>Ladie&apos;s Corner</a>
             <nav className="main-nav" style={{ display: 'flex', alignItems: 'center' }}>
               <a href="/" className="nav-link">Accueil</a>
