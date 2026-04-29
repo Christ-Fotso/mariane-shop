@@ -12,15 +12,7 @@ export default async function Home() {
 
   return (
     <div className="container py-8">
-      <div className="text-center mb-8">
-        <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--primary-color)' }}>
-          La Collection Ladie&apos;s Corner
-        </h2>
-        <p className="text-secondary" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          Découvrez notre sélection exclusive de produits et accessoires.
-          Réservez vos articles préférés en quelques clics.
-        </p>
-      </div>
+
 
       {products.length === 0 ? (
         <div className="text-center py-8">

@@ -29,13 +29,11 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="card">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={imageSrc} alt={product.name} className="product-image" />
-      <div className="product-info flex flex-col justify-between" style={{ height: 'calc(100% - 220px)' }}>
-        <div>
-          <h3 className="product-title">{product.name}</h3>
-          <p className="product-price">{product.price.toLocaleString('fr-FR')} FCFA</p>
-          {product.description && <p className="mb-4 text-secondary">{product.description.substring(0, 60)}...</p>}
-        </div>
-        <button className="btn btn-secondary w-full mt-4" onClick={addToCart}>
+      <div className="product-info">
+        <h3 className="product-title">{product.name}</h3>
+        <p className="product-price">{product.price.toLocaleString('fr-FR')} FCFA</p>
+        {product.description && <p className="product-desc">{product.description.substring(0, 60)}...</p>}
+        <button className="btn btn-secondary btn-sm w-full mt-2" onClick={addToCart}>
           Ajouter au Panier
         </button>
       </div>
