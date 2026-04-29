@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Brand {
+  id         String    @id @default(cuid())
+  name       String    @unique
+  products   Product[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Category {
+  id         String    @id @default(cuid())
+  name       String    @unique
+  products   Product[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+}
+
+model Product {
+  id               String            @id @default(cuid())
+  name             String
+  description      String?
+  price            Float             // Store in FCFA
+  quantity         Int               @default(0)
+  images           String[]          // Array of image paths/URLs
+  
+  brandId          String?
+  brand            Brand?            @relation(fields: [brandId], references: [id])
+  categoryId       String?
+  category         Category?         @relation(fields: [categoryId], references: [id])
+  
+  reservationItems ReservationItem[]
+  
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+}
+
+model Reservation {
+  id            String            @id @default(cuid())
+  customer_name String
+  phone_number  String
+  pickup_time   DateTime?
+  status        String            @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  items         ReservationItem[]
+  
+  created_at    DateTime          @default(now())
+  updated_at    DateTime          @updatedAt
+}
+
+model ReservationItem {
+  id            String      @id @default(cuid())
+  
+  reservationId String
+  reservation   Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  
+  productId     String
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  quantity      Int
+}

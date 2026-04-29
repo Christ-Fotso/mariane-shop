@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  app:
+    image: ${DOCKER_IMAGE:-christfotso/mariane-shop:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    secrets:
+      - DATABASE_URL
+      - JWT_SECRET
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_USER
+      - EMAIL_PASS
+      - ADMIN_EMAIL
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/public/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD_FILE=/run/secrets/DB_PASSWORD
+      - POSTGRES_DB=maris_shop
+    secrets:
+      - DB_PASSWORD
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d maris_shop"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Database migration runner — runs once and exits
+  migrator:
+    image: ${DOCKER_IMAGE:-christfotso/mariane-shop:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["npx", "prisma", "migrate", "deploy"]
+    environment:
+      - NODE_ENV=production
+    secrets:
+      - DATABASE_URL
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+secrets:
+  DATABASE_URL:
+    file: ./secrets/DATABASE_URL
+  JWT_SECRET:
+    file: ./secrets/JWT_SECRET
+  EMAIL_HOST:
+    file: ./secrets/EMAIL_HOST
+  EMAIL_PORT:
+    file: ./secrets/EMAIL_PORT
+  EMAIL_USER:
+    file: ./secrets/EMAIL_USER
+  EMAIL_PASS:
+    file: ./secrets/EMAIL_PASS
+  ADMIN_EMAIL:
+    file: ./secrets/ADMIN_EMAIL
+  DB_PASSWORD:
+    file: ./secrets/DB_PASSWORD
+
+volumes:
+  postgres_data:
+  uploads_data:
