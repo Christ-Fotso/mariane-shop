@@ -54,6 +54,7 @@ model Reservation {
   id            String            @id @default(cuid())
   customer_name String
   phone_number  String
+  city          String            // Ville de passage
   pickup_time   DateTime?
   status        String            @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
   items         ReservationItem[]

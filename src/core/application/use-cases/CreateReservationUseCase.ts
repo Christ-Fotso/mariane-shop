@@ -8,7 +8,7 @@ export class CreateReservationUseCase {
   async execute(data: Omit<ReservationEntity, 'id'>): Promise<ReservationEntity> {
     const reservation = await this.reservationRepository.create(data);
 
-    // Send Email notification to admin — non-blocking
+    // Send email notification to admin — non-blocking
     this.sendNotificationEmail(reservation).catch((err) =>
       console.error("Erreur d'envoi e-mail de notification:", err)
     );
@@ -31,14 +31,15 @@ export class CreateReservationUseCase {
     });
 
     await transporter.sendMail({
-      from: `"Boutique Notifications" <${user}>`,
+      from: `"Ladie's Corner - Notifications" <${user}>`,
       to: adminEmail,
-      subject: `🛍️ Nouvelle Réservation — ${reservation.customer_name}`,
+      subject: `🛍️ Nouvelle Réservation — ${reservation.customer_name} (${reservation.city})`,
       text: [
-        'Vous avez reçu une nouvelle réservation !',
+        "Vous avez reçu une nouvelle réservation sur Ladie's Corner !",
         '',
         `Nom/Pseudo    : ${reservation.customer_name}`,
         `Téléphone     : ${reservation.phone_number}`,
+        `Ville         : ${reservation.city}`,
         `Heure prévue  : ${reservation.pickup_time ? new Date(reservation.pickup_time).toLocaleString('fr-FR') : 'Non précisée'}`,
         '',
         'Articles réservés :',

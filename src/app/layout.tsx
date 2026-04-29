@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Boutique Réservation | Collection Élégance",
-  description: "Découvrez notre sélection de produits exclusifs et réservez-les en ligne.",
+  title: "Ladie's Corner | Boutique & Réservation",
+  description: "Découvrez la collection exclusive de Ladie's Corner et réservez vos articles préférés en ligne.",
 };
 
 export default function RootLayout({
@@ -16,10 +16,11 @@ export default function RootLayout({
       <body>
         <header className="site-header">
           <div className="container flex justify-between items-center py-4">
-            <h1 className="logo">Élégance</h1>
+            <a href="/" className="logo" style={{ textDecoration: 'none' }}>Ladie&apos;s Corner</a>
             <nav className="main-nav">
               <a href="/" className="nav-link">Accueil</a>
               <a href="/cart" className="nav-link">Mon Panier</a>
+              <a href="/faq" className="nav-link">FAQ</a>
             </nav>
           </div>
         </header>
@@ -28,7 +29,7 @@ export default function RootLayout({
         
         <footer className="site-footer">
           <div className="container text-center py-8">
-            <p>&copy; {new Date().getFullYear()} Élégance. Tous droits réservés.</p>
+            <p>&copy; {new Date().getFullYear()} Ladie&apos;s Corner. Tous droits réservés.</p>
           </div>
         </footer>
       </body>

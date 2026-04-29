@@ -4,16 +4,16 @@ import { CreateReservationUseCase } from '@/core/application/use-cases/CreateRes
 
 export const dynamic = 'force-dynamic';
 
-
 // Simple phone number validation: allows digits, spaces, +, -, ()
 const PHONE_REGEX = /^[+\d][\d\s\-().]{5,19}$/;
 const NAME_MAX_LENGTH = 100;
+const CITY_MAX_LENGTH = 100;
 const MAX_ITEMS = 50;
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { customer_name, phone_number, pickup_time, items } = body;
+    const { customer_name, phone_number, city, pickup_time, items } = body;
 
     // --- Input validation ---
     if (
@@ -26,17 +26,22 @@ export async function POST(request: Request) {
     }
 
     if (!phone_number || typeof phone_number !== 'string' || !PHONE_REGEX.test(phone_number.trim())) {
-      return NextResponse.json(
-        { error: 'Numéro de téléphone invalide.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Numéro de téléphone invalide.' }, { status: 400 });
+    }
+
+    if (
+      !city ||
+      typeof city !== 'string' ||
+      city.trim().length === 0 ||
+      city.length > CITY_MAX_LENGTH
+    ) {
+      return NextResponse.json({ error: 'Ville invalide.' }, { status: 400 });
     }
 
     if (!items || !Array.isArray(items) || items.length === 0 || items.length > MAX_ITEMS) {
       return NextResponse.json({ error: 'Panier vide ou invalide.' }, { status: 400 });
     }
 
-    // Validate each item
     for (const item of items) {
       if (
         typeof item.id !== 'string' ||
@@ -55,6 +60,7 @@ export async function POST(request: Request) {
     const reservation = await useCase.execute({
       customer_name: customer_name.trim(),
       phone_number: phone_number.trim(),
+      city: city.trim(),
       pickup_time: pickup_time ? new Date(pickup_time) : null,
       status: 'PENDING',
       items: items.map((item: any) => ({
@@ -63,7 +69,6 @@ export async function POST(request: Request) {
       })),
     });
 
-    // Don't expose internal DB data to public visitors
     return NextResponse.json({ success: true, reservationId: reservation.id }, { status: 201 });
   } catch (error) {
     console.error('API Reservation Error:', error);

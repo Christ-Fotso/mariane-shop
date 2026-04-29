@@ -14,10 +14,10 @@ export default async function Home() {
     <div className="container py-8">
       <div className="text-center mb-8">
         <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: 'var(--primary-color)' }}>
-          Notre Collection Exclusive
+          La Collection Ladie&apos;s Corner
         </h2>
         <p className="text-secondary" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          Découvrez notre sélection de produits de beauté et d'accessoires haut de gamme.
+          Découvrez notre sélection exclusive de produits et accessoires.
           Réservez vos articles préférés en quelques clics.
         </p>
       </div>

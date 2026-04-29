@@ -28,7 +28,7 @@ export default async function AdminDashboard() {
             {reservations.map(res => (
               <div key={res.id} style={{ border: '1px solid var(--border-color)', padding: '1rem', borderRadius: 'var(--radius)' }}>
                 <div className="flex justify-between items-center mb-2">
-                  <h4 style={{ fontWeight: 'bold' }}>{res.customer_name} - {res.phone_number}</h4>
+                  <h4 style={{ fontWeight: 'bold' }}>{res.customer_name} - {res.phone_number} - {res.city}</h4>
                   <span style={{ 
                     padding: '4px 8px', 
                     backgroundColor: res.status === 'PENDING' ? '#f39c12' : '#2ecc71',
