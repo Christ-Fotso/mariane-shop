@@ -3,27 +3,19 @@
 import React from 'react';
 import Link from 'next/link';
 import { ProductEntity } from '@/core/domain/repositories/ProductRepository';
+import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
   product: ProductEntity;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const addToCart = (e: React.MouseEvent) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if product already in cart
-    const existingProductIndex = existingCart.findIndex((item: any) => item.id === product.id);
-    if (existingProductIndex >= 0) {
-      existingCart[existingProductIndex].cartQuantity += 1;
-    } else {
-      existingCart.push({ ...product, cartQuantity: 1 });
-    }
-    
-    localStorage.setItem('cart', JSON.stringify(existingCart));
-    alert(`${product.name} a été ajouté à votre panier !`);
+    addToCart(product);
   };
 
   const imageSrc = product.images.length > 0 ? product.images[0] : '/placeholder.jpg';
@@ -35,7 +27,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={imageSrc} alt={product.name} className="product-image" />
           
-          <button className="hover-cart-btn" onClick={addToCart} aria-label="Ajouter au panier" title="Ajouter au panier">
+          <button className="hover-cart-btn" onClick={handleAddToCart} aria-label="Ajouter au panier" title="Ajouter au panier">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="9" cy="21" r="1"></circle>
               <circle cx="20" cy="21" r="1"></circle>
