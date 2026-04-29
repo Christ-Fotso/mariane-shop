@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const imageSrc = product.images.length > 0 ? product.images[0] : '/placeholder.jpg';
 
   return (
-    <Link href={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link href={`/product/${product.id}`} className="product-card-link">
       <div className="card product-card-container">
         <div className="product-image-wrapper">
           {/* eslint-disable-next-line @next/next/no-img-element */}
