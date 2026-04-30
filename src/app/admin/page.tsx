@@ -16,7 +16,10 @@ export default async function AdminDashboard() {
     <div className="container py-8">
       <div className="flex justify-between items-center mb-8">
         <h2 style={{ color: 'var(--primary-color)' }}>Tableau de Bord</h2>
-        <a href="/admin/products" className="btn btn-primary">Gérer le Catalogue</a>
+        <div>
+          <a href="/admin/categories" className="btn btn-secondary" style={{ marginRight: '1rem' }}>Gérer les Catégories</a>
+          <a href="/admin/products" className="btn btn-primary">Gérer le Catalogue</a>
+        </div>
       </div>
 
       <div className="card" style={{ padding: '2rem' }}>
