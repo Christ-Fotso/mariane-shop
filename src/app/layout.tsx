@@ -9,6 +9,13 @@ import { verifyAdminAuth } from "@/core/infrastructure/auth/verifyAuth";
 export const metadata: Metadata = {
   title: "Ladie's Corner | Boutique & Réservation",
   description: "Découvrez la collection exclusive de Ladie's Corner et réservez vos articles préférés en ligne.",
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
+  openGraph: {
+    images: ['/logo.png'],
+  },
 };
 
 export default async function RootLayout({
