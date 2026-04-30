@@ -5,9 +5,10 @@ import ProductDetailClient from './ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
 
-export default async function ProductPage({ params }: { params: { id: string } }) {
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const repository = new PrismaProductRepository();
-  const product = await repository.findById(params.id);
+  const product = await repository.findById(id);
 
   if (!product) {
     notFound();
