@@ -37,7 +37,7 @@ export default function AdminLogin() {
         
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div>
-            <label className="mb-2" style={{ display: 'block' }}>Nom d'utilisateur</label>
+            <label className="mb-2" style={{ display: 'block' }}>Email</label>
             <input 
               type="text" 
               className="input" 

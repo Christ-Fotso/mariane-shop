@@ -11,8 +11,8 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 10; // max login attempts per window
+const WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const MAX_REQUESTS = 20; // max login attempts per window
 
 export function checkRateLimit(identifier: string): { allowed: boolean; retryAfterMs?: number } {
   const now = Date.now();
