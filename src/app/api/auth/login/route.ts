@@ -22,6 +22,8 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { username, password } = body;
+    console.log(`[DEBUG] Tentative de connexion pour: ${username}`);
+
 
     // Basic input validation
     if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
