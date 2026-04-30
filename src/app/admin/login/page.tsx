@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminLogin() {
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,19 +13,27 @@ export default function AdminLogin() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
 
-    if (res.ok) {
-      router.push('/admin');
-      router.refresh();
-    } else {
-      const data = await res.json();
-      setError(data.error || 'Erreur de connexion');
+      if (res.ok) {
+        router.push('/admin');
+        router.refresh();
+      } else {
+        const data = await res.json().catch(() => ({ error: 'Réponse invalide du serveur' }));
+        setError(data.error || 'Erreur de connexion');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Impossible de contacter le serveur. Vérifiez votre connexion.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +65,9 @@ export default function AdminLogin() {
               required 
             />
           </div>
-          <button type="submit" className="btn btn-primary mt-4 w-full">Se Connecter</button>
+          <button type="submit" className="btn btn-primary mt-4 w-full" disabled={loading}>
+            {loading ? 'Connexion...' : 'Se Connecter'}
+          </button>
         </form>
       </div>
     </div>
