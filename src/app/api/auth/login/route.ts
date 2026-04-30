@@ -49,7 +49,7 @@ export async function POST(request: Request) {
       name: 'admin_token',
       value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: false, // Set to false to allow HTTP (local network testing)
       sameSite: 'strict',
       maxAge: 60 * 60 * 24, // 1 day
       path: '/',
