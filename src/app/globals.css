@@ -376,7 +376,7 @@ a:hover {
   top: 0;
   right: -100%;
   width: 100%;
-  max-width: 450px;
+  max-width: 100%;
   height: 100vh;
   background-color: var(--surface-color);
   z-index: 1000;
@@ -385,6 +385,13 @@ a:hover {
   flex-direction: column;
   transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .cart-drawer {
+    max-width: 450px;
+    right: -450px;
+  }
 }
 
 .cart-drawer.open {
